@@ -1,0 +1,26 @@
+ansible --version
+
+#Ping without saving the key & inventory details:
+ansible all --key-file ~/.ssh/ansible -i inventory -m ping
+
+#Create a config file in the directory named: ansible.cfg and paste the follwoing:
+[defaults]
+inventory = inventory <File containing the node's ip addresses>
+private_key_file = ~/.ssh/ansible <open ssh connection for asnible without pass-phrase>
+
+#Extra commands:
+ansible all -m ping
+ansible all --list -hosts
+ansible all -m gather_facts
+
+#Installing applications:
+ansible all -m apt -a update_cache = true --become --ask-become-pass
+
+ansible all -m apt -a name = <application name> --become --ask-become-pass (For ubuntu)
+
+#System upgrade command for all worker nodes:
+ansible all -m apt -a "name = snapd state = latest" --become --ask-become-pass
+
+#Gather facts for particular server:
+ansible all -m gather_facts --limit <ip address>
+  
