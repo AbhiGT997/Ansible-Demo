@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+  
+  - name: install updates (ubuntu)
+    tags: always
+    apt:
+      upgrage: dist
+      update_cache: yes
+    when: ansible_distribution == "ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: Create New user agt
+    tags: always
+    user:
+      name: #name of the new user to be created
+      group: root
+
+  - name: Adding ssh key got the created user
+    tags: always
+    authorized_keys:
+        user: #new user id created
+        key: #ssh-key-generated-in-mainsystem
+
+  - name: Adding sudoers file for created user
+    tags: always
+    copy:
+     src: sudoer_ #user id
+     dest: /etc/sudoers.d/ #new user
+     owner: root
+     group: root
+     mode: 0440
+
+  

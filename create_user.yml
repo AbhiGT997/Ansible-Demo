@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Creating New user
+    tags: always
+    user:
+     name: agt
+     groups: root
+
+  - name: Add ssh key to the user
+    tags: always
+    authorized_key:
+      user: agt
+      key: "ssh-ansible-key-generated"
+
+  - name: Add sudoers file for agt
+    tags: always
+    copy:
+       src: sudoers_agt
+       dest: /etc/sudoers.d/agt
+       owner: root
+       group: root
+       mode: 0440

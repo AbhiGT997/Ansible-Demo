@@ -21,3 +21,11 @@
       state: latest
       update_cache: yes
     when: ansible_distribution == "CentOS"
+
+  - name: Start apache (CentOS)
+    tags: apache, CentOS, httpd
+    dnf:
+    service:
+      name: httpd
+      state: started
+    when: ansible_distribution == "CentOS"

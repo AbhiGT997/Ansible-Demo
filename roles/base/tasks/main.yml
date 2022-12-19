@@ -1,0 +1,4 @@
+- name: add ssh key for #created new user id
+  authorized_key:
+     user: #created user id
+     key: #the generated ssh key
